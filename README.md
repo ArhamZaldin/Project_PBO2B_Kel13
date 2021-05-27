@@ -1,2 +1,4 @@
 # Project_PBO2B_Kel13
-Project PBO2-B Kelompok 13
+M. Wildan Mahendra - 192410101067
+Arham Zainul Abidin - 192410101095
+Kemal Taufiqqurohman - 192410101115
