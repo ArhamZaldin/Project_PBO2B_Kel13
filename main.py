@@ -1,10 +1,14 @@
 import wx
 import wxFilePy
 import database as DB
+from datetime import datetime
 
 class MainGui(wxFilePy.MainFrame):
     def __init__(self, parent):
         wxFilePy.MainFrame.__init__(self, parent)
+        now = datetime.now()
+        date = now.strftime("%A, %d %B %Y")
+        self.tanggal.SetLabel(date)
         self.dashboard = DashboardGui(parent=self)
         self.dataKeluarga = DataKeluargaGui(parent=self)
         self.rekomDana = RekomDanaGui(parent=self)
