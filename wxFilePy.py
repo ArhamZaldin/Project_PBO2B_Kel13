@@ -47,7 +47,21 @@ class MainFrame ( wx.Frame ):
 
 		self.top = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 980,60 ), wx.BORDER_THEME|wx.TAB_TRAVERSAL )
 		self.top.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.top.SetMinSize( wx.Size( 980,60 ) )
 
+		bSizer57 = wx.BoxSizer( wx.HORIZONTAL )
+
+		bSizer57.SetMinSize( wx.Size( 980,60 ) )
+		self.titleMenu = wx.StaticText( self.top, wx.ID_ANY, u"Dashboard", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.titleMenu.Wrap( -1 )
+
+		self.titleMenu.SetFont( wx.Font( 24, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
+		bSizer57.Add( self.titleMenu, 0, wx.ALIGN_CENTER|wx.LEFT, 50 )
+
+
+		self.top.SetSizer( bSizer57 )
+		self.top.Layout()
 		fgSizer3.Add( self.top, 1, wx.EXPAND, 5 )
 
 		self.sideFrame = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.TAB_TRAVERSAL )
@@ -69,34 +83,34 @@ class MainFrame ( wx.Frame ):
 
 		bSizer5.Add( self.m_staticText4, 0, wx.BOTTOM, 5 )
 
-		self.searchEngine = wx.Panel( self.sideFrame, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		self.searchEngine.SetBackgroundColour( wx.Colour( 0, 203, 188 ) )
-		self.searchEngine.SetMinSize( wx.Size( 240,35 ) )
+		self.searchPanel = wx.Panel( self.sideFrame, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.searchPanel.SetBackgroundColour( wx.Colour( 0, 203, 188 ) )
+		self.searchPanel.SetMinSize( wx.Size( 240,35 ) )
 
 		bSizer81 = wx.BoxSizer( wx.VERTICAL )
 
 		bSizer81.SetMinSize( wx.Size( 240,35 ) )
 		bSizer10 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_bitmap41 = wx.StaticBitmap( self.searchEngine, wx.ID_ANY, wx.Bitmap( u"picture/search.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_bitmap41 = wx.StaticBitmap( self.searchPanel, wx.ID_ANY, wx.Bitmap( u"picture/search.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer10.Add( self.m_bitmap41, 0, wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT, 10 )
 
-		self.search = wx.TextCtrl( self.searchEngine, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_PROCESS_ENTER|wx.BORDER_NONE )
-		self.search.SetFont( wx.Font( 15, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
-		self.search.SetForegroundColour( wx.Colour( 155, 235, 231 ) )
-		self.search.SetBackgroundColour( wx.Colour( 25, 193, 173 ) )
-		self.search.SetMinSize( wx.Size( 189,-1 ) )
+		self.searchEngine = wx.TextCtrl( self.searchPanel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_PROCESS_ENTER|wx.BORDER_NONE )
+		self.searchEngine.SetFont( wx.Font( 15, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.searchEngine.SetForegroundColour( wx.Colour( 155, 235, 231 ) )
+		self.searchEngine.SetBackgroundColour( wx.Colour( 25, 193, 173 ) )
+		self.searchEngine.SetMinSize( wx.Size( 189,-1 ) )
 
-		bSizer10.Add( self.search, 0, wx.ALIGN_CENTER, 13 )
+		bSizer10.Add( self.searchEngine, 0, wx.ALIGN_CENTER, 13 )
 
 
 		bSizer81.Add( bSizer10, 1, wx.ALIGN_CENTER, 5 )
 
 
-		self.searchEngine.SetSizer( bSizer81 )
-		self.searchEngine.Layout()
-		bSizer81.Fit( self.searchEngine )
-		bSizer5.Add( self.searchEngine, 0, wx.ALIGN_CENTER|wx.BOTTOM, 50 )
+		self.searchPanel.SetSizer( bSizer81 )
+		self.searchPanel.Layout()
+		bSizer81.Fit( self.searchPanel )
+		bSizer5.Add( self.searchPanel, 0, wx.ALIGN_CENTER|wx.BOTTOM, 50 )
 
 		self.dashboard_btn = wx.BitmapButton( self.sideFrame, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE|wx.BORDER_NONE )
 
@@ -157,7 +171,7 @@ class MainFrame ( wx.Frame ):
 		self.Centre( wx.BOTH )
 
 		# Connect Events
-		self.search.Bind( wx.EVT_TEXT_ENTER, self.searchEnter )
+		self.searchEngine.Bind( wx.EVT_TEXT_ENTER, self.searchEnter )
 		self.dashboard_btn.Bind( wx.EVT_BUTTON, self.btn_dashboard_click )
 		self.keluarga_btn.Bind( wx.EVT_BUTTON, self.btn_keluarga_click )
 		self.rekom_btn.Bind( wx.EVT_BUTTON, self.btn_rekom_click )
@@ -190,10 +204,10 @@ class MainFrame ( wx.Frame ):
 
 class dashboardPanel ( wx.Panel ):
 
-	def __init__( self, parent, id = wx.ID_ANY, pos = wx.Point( 350,80 ), size = wx.Size( -1,-1 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.Point( 350,80 ), size = wx.Size( 880,720 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
-		self.SetMaxSize( wx.Size( 880,-1 ) )
+		self.SetMinSize( wx.Size( 880,720 ) )
 
 		bSizer17 = wx.BoxSizer( wx.VERTICAL )
 
@@ -202,20 +216,14 @@ class dashboardPanel ( wx.Panel ):
 
 		gSizer1 = wx.GridSizer( 0, 3, 0, 0 )
 
-		self.m_bpButton6 = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+		self.m_bitmap61 = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( u"picture/btn_lihatKeluargaDB.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer1.Add( self.m_bitmap61, 0, 0, 5 )
 
-		self.m_bpButton6.SetBitmap( wx.Bitmap( u"picture/btn_lihatKeluargaDB.png", wx.BITMAP_TYPE_ANY ) )
-		gSizer1.Add( self.m_bpButton6, 0, 0, 5 )
+		self.m_bitmap71 = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( u"picture/btn_rekomenDB.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer1.Add( self.m_bitmap71, 0, wx.ALIGN_CENTER, 5 )
 
-		self.m_bpButton7 = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|0|wx.BORDER_NONE )
-
-		self.m_bpButton7.SetBitmap( wx.Bitmap( u"picture/btn_rekomenDB.png", wx.BITMAP_TYPE_ANY ) )
-		gSizer1.Add( self.m_bpButton7, 0, wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT, 100 )
-
-		self.m_bpButton8 = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|0|wx.BORDER_NONE )
-
-		self.m_bpButton8.SetBitmap( wx.Bitmap( u"picture/btn_catatDB.png", wx.BITMAP_TYPE_ANY ) )
-		gSizer1.Add( self.m_bpButton8, 0, wx.ALIGN_RIGHT, 5 )
+		self.m_bitmap81 = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( u"picture/btn_catatDB.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer1.Add( self.m_bitmap81, 0, wx.ALIGN_RIGHT, 5 )
 
 
 		bSizer17.Add( gSizer1, 0, wx.BOTTOM|wx.EXPAND|wx.TOP, 20 )
@@ -237,7 +245,7 @@ class dashboardPanel ( wx.Panel ):
 		self.m_bitmap7 = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( u"picture/timer.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, wx.BORDER_NONE )
 		bSizer27.Add( self.m_bitmap7, 0, wx.ALIGN_CENTER, 5 )
 
-		self.m_staticText8 = wx.StaticText( self, wx.ID_ANY, u"5 data dengan pendapatan terendah", wx.DefaultPosition, wx.DefaultSize, 0|wx.BORDER_NONE )
+		self.m_staticText8 = wx.StaticText( self, wx.ID_ANY, u"Terurut dari yang terendah", wx.DefaultPosition, wx.DefaultSize, 0|wx.BORDER_NONE )
 		self.m_staticText8.Wrap( -1 )
 
 		self.m_staticText8.SetFont( wx.Font( 15, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_LIGHT, False, "Roboto" ) )
@@ -296,7 +304,7 @@ class dashboardPanel ( wx.Panel ):
 		self.m_bitmap8 = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( u"picture/timer.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer28.Add( self.m_bitmap8, 0, wx.ALIGN_CENTER, 5 )
 
-		self.m_staticText9 = wx.StaticText( self, wx.ID_ANY, u"5 data terbaru", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText9 = wx.StaticText( self, wx.ID_ANY, u"Terurut dari yang terbaru", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText9.Wrap( -1 )
 
 		self.m_staticText9.SetFont( wx.Font( 15, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_LIGHT, False, "Roboto" ) )
@@ -344,26 +352,9 @@ class dashboardPanel ( wx.Panel ):
 
 		self.SetSizer( bSizer17 )
 		self.Layout()
-		bSizer17.Fit( self )
-
-		# Connect Events
-		self.m_bpButton6.Bind( wx.EVT_BUTTON, self.btn_keluargaDB_click )
-		self.m_bpButton7.Bind( wx.EVT_BUTTON, self.btn_rekomDB_click )
-		self.m_bpButton8.Bind( wx.EVT_BUTTON, self.btn_catatDB_click )
 
 	def __del__( self ):
 		pass
-
-
-	# Virtual event handlers, overide them in your derived class
-	def btn_keluargaDB_click( self, event ):
-		event.Skip()
-
-	def btn_rekomDB_click( self, event ):
-		event.Skip()
-
-	def btn_catatDB_click( self, event ):
-		event.Skip()
 
 
 ###########################################################################
@@ -372,29 +363,23 @@ class dashboardPanel ( wx.Panel ):
 
 class dataKeluargaPanel ( wx.Panel ):
 
-	def __init__( self, parent, id = wx.ID_ANY, pos = wx.Point( 300,60 ), size = wx.Size( -1,-1 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.Point( 300,60 ), size = wx.Size( 980,740 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
-		self.SetMinSize( wx.Size( 980,-1 ) )
+		self.SetMinSize( wx.Size( 980,740 ) )
 
 		bSizer17 = wx.BoxSizer( wx.VERTICAL )
 
 		bSizer17.SetMinSize( wx.Size( 980,740 ) )
-		self.dataPanel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		self.dataPanel.SetMinSize( wx.Size( 980,-1 ) )
-
-		bSizer52 = wx.BoxSizer( wx.VERTICAL )
-
-		bSizer52.SetMinSize( wx.Size( 980,-1 ) )
-		self.m_panel7 = wx.Panel( self.dataPanel, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.BORDER_THEME|wx.TAB_TRAVERSAL )
-		self.m_panel7.SetMaxSize( wx.Size( -1,50 ) )
+		self.filterPanel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.BORDER_THEME|wx.TAB_TRAVERSAL )
+		self.filterPanel.SetMaxSize( wx.Size( -1,50 ) )
 
 		bSizer18 = wx.BoxSizer( wx.HORIZONTAL )
 
 		bSizer18.SetMinSize( wx.Size( -1,100 ) )
 		bSizer56 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticText13 = wx.StaticText( self.m_panel7, wx.ID_ANY, u"Filter:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText13 = wx.StaticText( self.filterPanel, wx.ID_ANY, u"Filter:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText13.Wrap( -1 )
 
 		self.m_staticText13.SetFont( wx.Font( 15, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
@@ -403,20 +388,23 @@ class dataKeluargaPanel ( wx.Panel ):
 		bSizer56.Add( self.m_staticText13, 0, wx.ALIGN_CENTER|wx.LEFT, 50 )
 
 		filterSatuChoices = [ u"Tidak Ada", u"Total Pendapatan", u"Anggota Keluarga" ]
-		self.filterSatu = wx.ComboBox( self.m_panel7, wx.ID_ANY, u"TIdak Ada", wx.DefaultPosition, wx.DefaultSize, filterSatuChoices, 0 )
+		self.filterSatu = wx.Choice( self.filterPanel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, filterSatuChoices, 0 )
+		self.filterSatu.SetSelection( 0 )
 		self.filterSatu.SetFont( wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
-		self.filterSatu.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
+		self.filterSatu.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.filterSatu.SetMinSize( wx.Size( 140,-1 ) )
 
 		bSizer56.Add( self.filterSatu, 0, wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT, 10 )
 
 		filterDuaChoices = [ u"Lebih Dari", u"Kurang Dari" ]
-		self.filterDua = wx.ComboBox( self.m_panel7, wx.ID_ANY, u"Lebih Dari", wx.DefaultPosition, wx.DefaultSize, filterDuaChoices, 0 )
+		self.filterDua = wx.Choice( self.filterPanel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, filterDuaChoices, 0 )
+		self.filterDua.SetSelection( 0 )
 		self.filterDua.SetFont( wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
-		self.filterDua.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
+		self.filterDua.SetMinSize( wx.Size( 100,-1 ) )
 
 		bSizer56.Add( self.filterDua, 0, wx.ALIGN_CENTER, 5 )
 
-		self.filterValue = wx.TextCtrl( self.m_panel7, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.filterValue = wx.TextCtrl( self.filterPanel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.filterValue.SetFont( wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 		self.filterValue.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
 
@@ -429,17 +417,17 @@ class dataKeluargaPanel ( wx.Panel ):
 
 		bSizer58 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_bpButton23 = wx.BitmapButton( self.m_panel7, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+		self.m_bpButton23 = wx.BitmapButton( self.filterPanel, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|0|wx.BORDER_NONE )
 
 		self.m_bpButton23.SetBitmap( wx.Bitmap( u"picture/tambah.png", wx.BITMAP_TYPE_ANY ) )
 		bSizer58.Add( self.m_bpButton23, 0, 0, 10 )
 
-		self.m_bpButton26 = wx.BitmapButton( self.m_panel7, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE|wx.BORDER_NONE )
+		self.m_bpButton26 = wx.BitmapButton( self.filterPanel, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE|wx.BORDER_NONE )
 
 		self.m_bpButton26.SetBitmap( wx.Bitmap( u"picture/btn_ubah.png", wx.BITMAP_TYPE_ANY ) )
 		bSizer58.Add( self.m_bpButton26, 0, wx.LEFT|wx.RIGHT, 5 )
 
-		self.m_bpButton25 = wx.BitmapButton( self.m_panel7, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE|wx.BORDER_NONE )
+		self.m_bpButton25 = wx.BitmapButton( self.filterPanel, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE|wx.BORDER_NONE )
 
 		self.m_bpButton25.SetBitmap( wx.Bitmap( u"picture/btn_hapus.png", wx.BITMAP_TYPE_ANY ) )
 		bSizer58.Add( self.m_bpButton25, 0, wx.RIGHT, 50 )
@@ -451,17 +439,17 @@ class dataKeluargaPanel ( wx.Panel ):
 		bSizer18.Add( bSizer57, 1, wx.ALIGN_CENTER_VERTICAL, 5 )
 
 
-		self.m_panel7.SetSizer( bSizer18 )
-		self.m_panel7.Layout()
-		bSizer18.Fit( self.m_panel7 )
-		bSizer52.Add( self.m_panel7, 0, wx.BOTTOM|wx.EXPAND, 20 )
+		self.filterPanel.SetSizer( bSizer18 )
+		self.filterPanel.Layout()
+		bSizer18.Fit( self.filterPanel )
+		bSizer17.Add( self.filterPanel, 0, wx.BOTTOM|wx.EXPAND, 20 )
 
-		bSizer23 = wx.BoxSizer( wx.VERTICAL )
+		sizerForGrid = wx.BoxSizer( wx.VERTICAL )
 
-		self.dataKeluargaGrid = wx.grid.Grid( self.dataPanel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.dataKeluargaGrid = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataKeluargaGrid.CreateGrid( 0, 0 )
+		self.dataKeluargaGrid.CreateGrid( 0, 5 )
 		self.dataKeluargaGrid.EnableEditing( False )
 		self.dataKeluargaGrid.EnableGridLines( True )
 		self.dataKeluargaGrid.EnableDragGridSize( False )
@@ -471,15 +459,23 @@ class dataKeluargaPanel ( wx.Panel ):
 		self.dataKeluargaGrid.EnableDragColMove( False )
 		self.dataKeluargaGrid.EnableDragColSize( False )
 		self.dataKeluargaGrid.SetColLabelSize( 30 )
+		self.dataKeluargaGrid.SetColLabelValue( 0, u"Nomor KK" )
+		self.dataKeluargaGrid.SetColLabelValue( 1, u"Kepala Keluarga" )
+		self.dataKeluargaGrid.SetColLabelValue( 2, u"Anggota Keluarga" )
+		self.dataKeluargaGrid.SetColLabelValue( 3, u"Total Pendapatan" )
+		self.dataKeluargaGrid.SetColLabelValue( 4, u"Alamat" )
+		self.dataKeluargaGrid.SetColLabelValue( 5, wx.EmptyString )
+		self.dataKeluargaGrid.SetColLabelValue( 6, wx.EmptyString )
+		self.dataKeluargaGrid.SetColLabelValue( 7, wx.EmptyString )
 		self.dataKeluargaGrid.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Rows
 		self.dataKeluargaGrid.EnableDragRowSize( False )
-		self.dataKeluargaGrid.SetRowLabelSize( 80 )
+		self.dataKeluargaGrid.SetRowLabelSize( 60 )
 		self.dataKeluargaGrid.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Label Appearance
-		self.dataKeluargaGrid.SetLabelBackgroundColour( wx.Colour( 255, 255, 255 ) )
+		self.dataKeluargaGrid.SetLabelBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
 		self.dataKeluargaGrid.SetLabelFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 		self.dataKeluargaGrid.SetLabelTextColour( wx.Colour( 100, 100, 100 ) )
 
@@ -487,26 +483,20 @@ class dataKeluargaPanel ( wx.Panel ):
 		self.dataKeluargaGrid.SetDefaultCellTextColour( wx.Colour( 100, 100, 100 ) )
 		self.dataKeluargaGrid.SetDefaultCellFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 		self.dataKeluargaGrid.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_CENTER )
+		self.dataKeluargaGrid.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 		self.dataKeluargaGrid.SetMinSize( wx.Size( 880,-1 ) )
 
-		bSizer23.Add( self.dataKeluargaGrid, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 50 )
+		sizerForGrid.Add( self.dataKeluargaGrid, 1, wx.LEFT|wx.RIGHT|wx.EXPAND, 50 )
 
 
-		bSizer52.Add( bSizer23, 1, wx.EXPAND, 5 )
-
-
-		self.dataPanel.SetSizer( bSizer52 )
-		self.dataPanel.Layout()
-		bSizer52.Fit( self.dataPanel )
-		bSizer17.Add( self.dataPanel, 1, wx.EXPAND, 5 )
+		bSizer17.Add( sizerForGrid, 1, wx.EXPAND, 5 )
 
 
 		self.SetSizer( bSizer17 )
 		self.Layout()
-		bSizer17.Fit( self )
 
 		# Connect Events
-		self.filterSatu.Bind( wx.EVT_COMBOBOX, self.filterOneSelected )
+		self.filterSatu.Bind( wx.EVT_CHOICE, self.filterOneSelected )
 		self.filterValue.Bind( wx.EVT_TEXT, self.filterValueChange )
 		self.m_bpButton23.Bind( wx.EVT_BUTTON, self.btn_tambahData )
 		self.m_bpButton26.Bind( wx.EVT_BUTTON, self.btn_ubahData )
@@ -540,7 +530,7 @@ class dataKeluargaPanel ( wx.Panel ):
 class addData ( wx.Dialog ):
 
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 402,360 ), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 402,380 ), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -549,14 +539,16 @@ class addData ( wx.Dialog ):
 		self.m_staticText63 = wx.StaticText( self, wx.ID_ANY, u"Tambah Data", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText63.Wrap( -1 )
 
-		self.m_staticText63.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.m_staticText63.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
-		bSizer59.Add( self.m_staticText63, 0, wx.LEFT|wx.TOP, 10 )
+		bSizer59.Add( self.m_staticText63, 0, wx.LEFT|wx.TOP, 20 )
 
 		bSizer60 = wx.BoxSizer( wx.HORIZONTAL )
 
 		self.m_staticText65 = wx.StaticText( self, wx.ID_ANY, u"Nomor KK", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText65.Wrap( -1 )
+
+		self.m_staticText65.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer60.Add( self.m_staticText65, 1, wx.ALIGN_CENTER, 5 )
 
@@ -564,12 +556,14 @@ class addData ( wx.Dialog ):
 		bSizer60.Add( self.nomorKK, 0, wx.ALIGN_CENTER, 5 )
 
 
-		bSizer59.Add( bSizer60, 1, wx.ALL|wx.EXPAND, 10 )
+		bSizer59.Add( bSizer60, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 20 )
 
 		bSizer61 = wx.BoxSizer( wx.HORIZONTAL )
 
 		self.m_staticText66 = wx.StaticText( self, wx.ID_ANY, u"Kepala Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText66.Wrap( -1 )
+
+		self.m_staticText66.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer61.Add( self.m_staticText66, 1, wx.ALIGN_CENTER, 10 )
 
@@ -577,12 +571,29 @@ class addData ( wx.Dialog ):
 		bSizer61.Add( self.kepKeluarga, 0, wx.ALIGN_CENTER, 5 )
 
 
-		bSizer59.Add( bSizer61, 1, wx.ALL|wx.EXPAND, 10 )
+		bSizer59.Add( bSizer61, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 20 )
+
+		bSizer66 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText45 = wx.StaticText( self, wx.ID_ANY, u"NIK Kepala Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText45.Wrap( -1 )
+
+		self.m_staticText45.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
+		bSizer66.Add( self.m_staticText45, 1, wx.ALIGN_CENTER, 5 )
+
+		self.nikKepala = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer66.Add( self.nikKepala, 0, wx.ALIGN_CENTER, 5 )
+
+
+		bSizer59.Add( bSizer66, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 20 )
 
 		bSizer62 = wx.BoxSizer( wx.HORIZONTAL )
 
 		self.m_staticText67 = wx.StaticText( self, wx.ID_ANY, u"Anggota Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText67.Wrap( -1 )
+
+		self.m_staticText67.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer62.Add( self.m_staticText67, 1, wx.ALIGN_CENTER, 5 )
 
@@ -590,12 +601,14 @@ class addData ( wx.Dialog ):
 		bSizer62.Add( self.jumAnggota, 0, wx.ALIGN_CENTER, 5 )
 
 
-		bSizer59.Add( bSizer62, 1, wx.ALL|wx.EXPAND, 10 )
+		bSizer59.Add( bSizer62, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 20 )
 
 		bSizer64 = wx.BoxSizer( wx.HORIZONTAL )
 
 		self.m_staticText68 = wx.StaticText( self, wx.ID_ANY, u"Total Pendapatan", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText68.Wrap( -1 )
+
+		self.m_staticText68.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer64.Add( self.m_staticText68, 1, wx.ALIGN_CENTER, 5 )
 
@@ -603,12 +616,14 @@ class addData ( wx.Dialog ):
 		bSizer64.Add( self.totalPendapatan, 0, wx.ALIGN_CENTER, 5 )
 
 
-		bSizer59.Add( bSizer64, 1, wx.ALL|wx.EXPAND, 10 )
+		bSizer59.Add( bSizer64, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 20 )
 
 		bSizer65 = wx.BoxSizer( wx.HORIZONTAL )
 
 		self.m_staticText69 = wx.StaticText( self, wx.ID_ANY, u"Alamat", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText69.Wrap( -1 )
+
+		self.m_staticText69.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer65.Add( self.m_staticText69, 1, wx.ALIGN_CENTER, 5 )
 
@@ -616,12 +631,12 @@ class addData ( wx.Dialog ):
 		bSizer65.Add( self.alamatBaru, 0, wx.ALIGN_CENTER, 5 )
 
 
-		bSizer59.Add( bSizer65, 1, wx.ALL|wx.EXPAND, 10 )
+		bSizer59.Add( bSizer65, 1, wx.EXPAND|wx.LEFT|wx.RIGHT, 20 )
 
 		self.m_bpButton27 = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE )
 
 		self.m_bpButton27.SetBitmap( wx.Bitmap( u"picture/tambah.png", wx.BITMAP_TYPE_ANY ) )
-		bSizer59.Add( self.m_bpButton27, 0, wx.ALIGN_RIGHT|wx.BOTTOM|wx.RIGHT|wx.TOP, 10 )
+		bSizer59.Add( self.m_bpButton27, 0, wx.ALIGN_RIGHT|wx.BOTTOM|wx.RIGHT, 15 )
 
 
 		self.SetSizer( bSizer59 )
@@ -657,7 +672,7 @@ class changeData ( wx.Dialog ):
 		self.m_staticText70 = wx.StaticText( self, wx.ID_ANY, u"Ubah Data", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText70.Wrap( -1 )
 
-		self.m_staticText70.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.m_staticText70.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer66.Add( self.m_staticText70, 0, wx.LEFT|wx.TOP, 10 )
 
@@ -670,6 +685,8 @@ class changeData ( wx.Dialog ):
 		self.m_staticText71 = wx.StaticText( self.ubahAnggota, wx.ID_ANY, u"Nomor KK", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText71.Wrap( -1 )
 
+		self.m_staticText71.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
 		bSizer75.Add( self.m_staticText71, 1, wx.ALIGN_CENTER, 10 )
 
 		self.nomorKK_anggota = wx.TextCtrl( self.ubahAnggota, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -680,8 +697,10 @@ class changeData ( wx.Dialog ):
 
 		bSizer73 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticText73 = wx.StaticText( self.ubahAnggota, wx.ID_ANY, u"Nama Anggota", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText73 = wx.StaticText( self.ubahAnggota, wx.ID_ANY, u"Nama Anggota Baru", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText73.Wrap( -1 )
+
+		self.m_staticText73.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer73.Add( self.m_staticText73, 1, wx.ALIGN_CENTER, 5 )
 
@@ -693,8 +712,10 @@ class changeData ( wx.Dialog ):
 
 		bSizer72 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticText74 = wx.StaticText( self.ubahAnggota, wx.ID_ANY, u"NIK Anggota", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText74 = wx.StaticText( self.ubahAnggota, wx.ID_ANY, u"NIK Anggota Baru", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText74.Wrap( -1 )
+
+		self.m_staticText74.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer72.Add( self.m_staticText74, 1, wx.ALIGN_CENTER, 5 )
 
@@ -722,6 +743,8 @@ class changeData ( wx.Dialog ):
 		self.m_staticText78 = wx.StaticText( self.ubahTotal, wx.ID_ANY, u"Nomor KK", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText78.Wrap( -1 )
 
+		self.m_staticText78.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
 		bSizer78.Add( self.m_staticText78, 1, wx.ALIGN_CENTER, 10 )
 
 		self.nomorKK_total = wx.TextCtrl( self.ubahTotal, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -734,6 +757,8 @@ class changeData ( wx.Dialog ):
 
 		self.m_staticText77 = wx.StaticText( self.ubahTotal, wx.ID_ANY, u"Total Pendapatan Baru", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText77.Wrap( -1 )
+
+		self.m_staticText77.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer77.Add( self.m_staticText77, 1, wx.ALIGN_CENTER, 10 )
 
@@ -761,6 +786,8 @@ class changeData ( wx.Dialog ):
 		self.m_staticText79 = wx.StaticText( self.ubahAlamat, wx.ID_ANY, u"Nomor KK", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText79.Wrap( -1 )
 
+		self.m_staticText79.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
 		bSizer80.Add( self.m_staticText79, 1, wx.ALIGN_CENTER, 10 )
 
 		self.nomorKK_alamat = wx.TextCtrl( self.ubahAlamat, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -773,6 +800,8 @@ class changeData ( wx.Dialog ):
 
 		self.m_staticText80 = wx.StaticText( self.ubahAlamat, wx.ID_ANY, u"Alamat Baru", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText80.Wrap( -1 )
+
+		self.m_staticText80.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
 		bSizer81.Add( self.m_staticText80, 1, wx.ALIGN_CENTER, 5 )
 
@@ -946,12 +975,17 @@ class searchData ( wx.Dialog ):
 		bSizer59 = wx.BoxSizer( wx.VERTICAL )
 
 		bSizer59.SetMinSize( wx.Size( -1,350 ) )
+		bSizer57 = wx.BoxSizer( wx.VERTICAL )
+
 		self.m_staticText42 = wx.StaticText( self, wx.ID_ANY, u"Data Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText42.Wrap( -1 )
 
 		self.m_staticText42.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
-		bSizer59.Add( self.m_staticText42, 0, wx.ALL, 10 )
+		bSizer57.Add( self.m_staticText42, 0, wx.BOTTOM|wx.TOP, 10 )
+
+
+		bSizer59.Add( bSizer57, 0, wx.LEFT, 50 )
 
 		bSizer66 = wx.BoxSizer( wx.HORIZONTAL )
 
@@ -960,33 +994,35 @@ class searchData ( wx.Dialog ):
 		self.m_staticText43 = wx.StaticText( self, wx.ID_ANY, u"Nomor KK", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText43.Wrap( -1 )
 
-		self.m_staticText43.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
+		self.m_staticText43.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
 		bSizer63.Add( self.m_staticText43, 0, 0, 5 )
 
 		self.nomorKK = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.nomorKK.Wrap( -1 )
 
-		self.nomorKK.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.nomorKK.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.nomorKK.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
 
 		bSizer63.Add( self.nomorKK, 0, wx.TOP, 5 )
 
 
-		bSizer66.Add( bSizer63, 1, 0, 5 )
+		bSizer66.Add( bSizer63, 1, wx.BOTTOM, 20 )
 
 		bSizer62 = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_staticText45 = wx.StaticText( self, wx.ID_ANY, u"Kepala Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText45.Wrap( -1 )
 
-		self.m_staticText45.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
+		self.m_staticText45.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
 		bSizer62.Add( self.m_staticText45, 0, 0, 5 )
 
 		self.kepKeluarga = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.kepKeluarga.Wrap( -1 )
 
-		self.kepKeluarga.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.kepKeluarga.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.kepKeluarga.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
 
 		bSizer62.Add( self.kepKeluarga, 0, wx.TOP, 5 )
 
@@ -998,14 +1034,15 @@ class searchData ( wx.Dialog ):
 		self.m_staticText47 = wx.StaticText( self, wx.ID_ANY, u"Anggota Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText47.Wrap( -1 )
 
-		self.m_staticText47.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
+		self.m_staticText47.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
 		bSizer61.Add( self.m_staticText47, 0, 0, 5 )
 
 		self.anggota = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.anggota.Wrap( -1 )
 
-		self.anggota.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.anggota.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.anggota.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
 
 		bSizer61.Add( self.anggota, 0, wx.TOP, 5 )
 
@@ -1017,14 +1054,15 @@ class searchData ( wx.Dialog ):
 		self.m_staticText49 = wx.StaticText( self, wx.ID_ANY, u"Total Pendapatan", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText49.Wrap( -1 )
 
-		self.m_staticText49.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
+		self.m_staticText49.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
 		bSizer60.Add( self.m_staticText49, 0, 0, 5 )
 
 		self.total = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.total.Wrap( -1 )
 
-		self.total.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.total.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.total.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
 
 		bSizer60.Add( self.total, 0, wx.TOP, 5 )
 
@@ -1036,14 +1074,15 @@ class searchData ( wx.Dialog ):
 		self.m_staticText51 = wx.StaticText( self, wx.ID_ANY, u"Alamat", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText51.Wrap( -1 )
 
-		self.m_staticText51.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
+		self.m_staticText51.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
 		bSizer64.Add( self.m_staticText51, 0, 0, 5 )
 
 		self.alamat = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.alamat.Wrap( -1 )
 
-		self.alamat.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.alamat.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.alamat.SetForegroundColour( wx.Colour( 100, 100, 100 ) )
 
 		bSizer64.Add( self.alamat, 0, wx.TOP, 5 )
 
@@ -1051,19 +1090,24 @@ class searchData ( wx.Dialog ):
 		bSizer66.Add( bSizer64, 1, 0, 5 )
 
 
-		bSizer59.Add( bSizer66, 0, wx.ALL|wx.EXPAND, 10 )
+		bSizer59.Add( bSizer66, 0, wx.EXPAND|wx.LEFT, 50 )
+
+		bSizer58 = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_staticText53 = wx.StaticText( self, wx.ID_ANY, u"Anggota Keluarga", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText53.Wrap( -1 )
 
 		self.m_staticText53.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
 
-		bSizer59.Add( self.m_staticText53, 0, wx.ALL, 10 )
+		bSizer58.Add( self.m_staticText53, 0, wx.BOTTOM, 10 )
+
+
+		bSizer59.Add( bSizer58, 0, wx.LEFT, 50 )
 
 		self.searchGrid = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 
 		# Grid
-		self.searchGrid.CreateGrid( 0, 0 )
+		self.searchGrid.CreateGrid( 0, 2 )
 		self.searchGrid.EnableEditing( False )
 		self.searchGrid.EnableGridLines( True )
 		self.searchGrid.EnableDragGridSize( False )
@@ -1073,18 +1117,24 @@ class searchData ( wx.Dialog ):
 		self.searchGrid.EnableDragColMove( False )
 		self.searchGrid.EnableDragColSize( True )
 		self.searchGrid.SetColLabelSize( 30 )
+		self.searchGrid.SetColLabelValue( 0, u"Nomor Induk Keluarga" )
+		self.searchGrid.SetColLabelValue( 1, u"Nama Lengkap" )
 		self.searchGrid.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Rows
 		self.searchGrid.EnableDragRowSize( True )
-		self.searchGrid.SetRowLabelSize( 80 )
+		self.searchGrid.SetRowLabelSize( 60 )
 		self.searchGrid.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Label Appearance
+		self.searchGrid.SetLabelBackgroundColour( wx.Colour( 255, 255, 255 ) )
+		self.searchGrid.SetLabelFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
+		self.searchGrid.SetLabelTextColour( wx.Colour( 100, 100, 100 ) )
 
 		# Cell Defaults
+		self.searchGrid.SetDefaultCellFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 		self.searchGrid.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_CENTER )
-		bSizer59.Add( self.searchGrid, 0, wx.LEFT, 10 )
+		bSizer59.Add( self.searchGrid, 0, wx.LEFT, 50 )
 
 
 		self.SetSizer( bSizer59 )
@@ -1097,44 +1147,48 @@ class searchData ( wx.Dialog ):
 
 
 ###########################################################################
-## Class rekomDana
+## Class rekomDanaPanel
 ###########################################################################
 
-class rekomDana ( wx.Dialog ):
+class rekomDanaPanel ( wx.Panel ):
 
-	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 700,400 ), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP )
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.Point( 300,60 ), size = wx.Size( 980,740 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
-		self.SetSizeHints( wx.Size( -1,-1 ), wx.DefaultSize )
+		self.SetMinSize( wx.Size( 980,740 ) )
 
-		bSizer67 = wx.BoxSizer( wx.VERTICAL )
+		bSizer54 = wx.BoxSizer( wx.VERTICAL )
 
-		self.m_staticText54 = wx.StaticText( self, wx.ID_ANY, u"Rekomendasi Dana", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText54.Wrap( -1 )
+		bSizer54.SetMinSize( wx.Size( 980,740 ) )
+		self.valueRekomPanel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_THEME|wx.TAB_TRAVERSAL )
+		self.valueRekomPanel.SetMaxSize( wx.Size( -1,50 ) )
 
-		self.m_staticText54.SetFont( wx.Font( 24, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		bSizer58 = wx.BoxSizer( wx.HORIZONTAL )
 
-		bSizer67.Add( self.m_staticText54, 0, wx.ALL, 10 )
+		bSizer58.SetMinSize( wx.Size( -1,100 ) )
+		self.m_staticText43 = wx.StaticText( self.valueRekomPanel, wx.ID_ANY, u"Upah Minimum Regional", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText43.Wrap( -1 )
 
-		bSizer72 = wx.BoxSizer( wx.HORIZONTAL )
+		self.m_staticText43.SetFont( wx.Font( 15, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 
-		self.m_staticText57 = wx.StaticText( self, wx.ID_ANY, u"Upah Minimum Regional", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText57.Wrap( -1 )
+		bSizer58.Add( self.m_staticText43, 0, wx.ALIGN_CENTER|wx.LEFT, 50 )
 
-		self.m_staticText57.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.umrInput = wx.TextCtrl( self.valueRekomPanel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.umrInput.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.umrInput.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
 
-		bSizer72.Add( self.m_staticText57, 0, wx.ALL, 10 )
-
-		self.umrInput = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		bSizer72.Add( self.umrInput, 0, wx.ALIGN_CENTER|wx.LEFT, 10 )
+		bSizer58.Add( self.umrInput, 0, wx.ALIGN_CENTER|wx.LEFT, 30 )
 
 
-		bSizer67.Add( bSizer72, 0, wx.EXPAND, 5 )
+		self.valueRekomPanel.SetSizer( bSizer58 )
+		self.valueRekomPanel.Layout()
+		bSizer58.Fit( self.valueRekomPanel )
+		bSizer54.Add( self.valueRekomPanel, 0, wx.BOTTOM|wx.EXPAND, 20 )
 
-		self.rekomGrid = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.rekomGrid = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,880 ), 0 )
 
 		# Grid
-		self.rekomGrid.CreateGrid( 0, 0 )
+		self.rekomGrid.CreateGrid( 0, 4 )
 		self.rekomGrid.EnableEditing( False )
 		self.rekomGrid.EnableGridLines( True )
 		self.rekomGrid.EnableDragGridSize( False )
@@ -1142,26 +1196,35 @@ class rekomDana ( wx.Dialog ):
 
 		# Columns
 		self.rekomGrid.EnableDragColMove( False )
-		self.rekomGrid.EnableDragColSize( True )
+		self.rekomGrid.EnableDragColSize( False )
 		self.rekomGrid.SetColLabelSize( 30 )
+		self.rekomGrid.SetColLabelValue( 0, u"Nomor KK" )
+		self.rekomGrid.SetColLabelValue( 1, u"Kepala Keluarga" )
+		self.rekomGrid.SetColLabelValue( 2, u"Alamat" )
+		self.rekomGrid.SetColLabelValue( 3, u"Saran Bantuan" )
 		self.rekomGrid.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Rows
-		self.rekomGrid.EnableDragRowSize( True )
-		self.rekomGrid.SetRowLabelSize( 80 )
+		self.rekomGrid.EnableDragRowSize( False )
+		self.rekomGrid.SetRowLabelSize( 60 )
 		self.rekomGrid.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Label Appearance
+		self.rekomGrid.SetLabelBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.rekomGrid.SetLabelFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
+		self.rekomGrid.SetLabelTextColour( wx.Colour( 100, 100, 100 ) )
 
 		# Cell Defaults
+		self.rekomGrid.SetDefaultCellTextColour( wx.Colour( 100, 100, 100 ) )
+		self.rekomGrid.SetDefaultCellFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 		self.rekomGrid.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_CENTER )
-		bSizer67.Add( self.rekomGrid, 1, wx.ALL|wx.EXPAND, 10 )
+		self.rekomGrid.SetMinSize( wx.Size( 880,-1 ) )
+
+		bSizer54.Add( self.rekomGrid, 1, wx.LEFT|wx.EXPAND, 50 )
 
 
-		self.SetSizer( bSizer67 )
+		self.SetSizer( bSizer54 )
 		self.Layout()
-
-		self.Centre( wx.BOTH )
 
 		# Connect Events
 		self.umrInput.Bind( wx.EVT_TEXT, self.umrChange )
@@ -1176,29 +1239,67 @@ class rekomDana ( wx.Dialog ):
 
 
 ###########################################################################
-## Class rekapData
+## Class rekapDataPanel
 ###########################################################################
 
-class rekapData ( wx.Dialog ):
+class rekapDataPanel ( wx.Panel ):
 
-	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 460,350 ), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP )
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.Point( 350,80 ), size = wx.Size( 880,720 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		self.SetMinSize( wx.Size( 880,720 ) )
+
+		bSizer60 = wx.BoxSizer( wx.VERTICAL )
+
+		self.rekapOption = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.rekapOption.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
+
+		gSizer3 = wx.GridSizer( 0, 2, 0, 0 )
+
+		self.m_bpButton17 = wx.BitmapButton( self.rekapOption, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 420,160 ), wx.BU_AUTODRAW|wx.BORDER_NONE )
+
+		self.m_bpButton17.SetBitmap( wx.Bitmap( u"picture/catat_btn.png", wx.BITMAP_TYPE_ANY ) )
+		self.m_bpButton17.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.m_bpButton17.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
+		self.m_bpButton17.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.m_bpButton17.SetMinSize( wx.Size( 420,220 ) )
+
+		gSizer3.Add( self.m_bpButton17, 0, 0, 64 )
+
+		self.m_bpButton18 = wx.BitmapButton( self.rekapOption, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 420,220 ), wx.BU_AUTODRAW|wx.BORDER_NONE )
+
+		self.m_bpButton18.SetBitmap( wx.Bitmap( u"picture/riwayat_btn.png", wx.BITMAP_TYPE_ANY ) )
+		self.m_bpButton18.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.m_bpButton18.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
+		self.m_bpButton18.SetMinSize( wx.Size( 420,220 ) )
+
+		gSizer3.Add( self.m_bpButton18, 0, wx.ALIGN_RIGHT, 64 )
+
+
+		self.rekapOption.SetSizer( gSizer3 )
+		self.rekapOption.Layout()
+		gSizer3.Fit( self.rekapOption )
+		bSizer60.Add( self.rekapOption, 1, wx.EXPAND, 5 )
+
+		self.riwayatBantuan = wx.Panel( self, wx.ID_ANY, wx.Point( -1,-1 ), wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.riwayatBantuan.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
+		self.riwayatBantuan.Enable( False )
+		self.riwayatBantuan.Hide()
 
 		bSizer71 = wx.BoxSizer( wx.VERTICAL )
 
-		self.m_staticText56 = wx.StaticText( self, wx.ID_ANY, u"Riwayat Bantuan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText56 = wx.StaticText( self.riwayatBantuan, wx.ID_ANY, u"Riwayat Bantuan", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText56.Wrap( -1 )
 
-		self.m_staticText56.SetFont( wx.Font( 24, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.m_staticText56.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.m_staticText56.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
 
-		bSizer71.Add( self.m_staticText56, 0, wx.ALL, 10 )
+		bSizer71.Add( self.m_staticText56, 0, wx.BOTTOM, 20 )
 
-		self.rekapGrid = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.rekapGrid = wx.grid.Grid( self.riwayatBantuan, wx.ID_ANY, wx.DefaultPosition, wx.Size( 880,720 ), 0 )
 
 		# Grid
-		self.rekapGrid.CreateGrid( 0, 0 )
+		self.rekapGrid.CreateGrid( 0, 4 )
 		self.rekapGrid.EnableEditing( False )
 		self.rekapGrid.EnableGridLines( True )
 		self.rekapGrid.EnableDragGridSize( False )
@@ -1206,28 +1307,137 @@ class rekapData ( wx.Dialog ):
 
 		# Columns
 		self.rekapGrid.EnableDragColMove( False )
-		self.rekapGrid.EnableDragColSize( True )
+		self.rekapGrid.EnableDragColSize( False )
 		self.rekapGrid.SetColLabelSize( 30 )
+		self.rekapGrid.SetColLabelValue( 0, u"Nomor KK" )
+		self.rekapGrid.SetColLabelValue( 1, u"Kepala Keluarga" )
+		self.rekapGrid.SetColLabelValue( 2, u"Besar Bantuan" )
+		self.rekapGrid.SetColLabelValue( 3, u"Tanggal" )
+		self.rekapGrid.SetColLabelValue( 4, wx.EmptyString )
 		self.rekapGrid.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Rows
-		self.rekapGrid.EnableDragRowSize( True )
-		self.rekapGrid.SetRowLabelSize( 80 )
+		self.rekapGrid.EnableDragRowSize( False )
+		self.rekapGrid.SetRowLabelSize( 60 )
 		self.rekapGrid.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
 
 		# Label Appearance
+		self.rekapGrid.SetLabelBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.rekapGrid.SetLabelFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, "Roboto" ) )
+		self.rekapGrid.SetLabelTextColour( wx.Colour( 100, 100, 100 ) )
 
 		# Cell Defaults
+		self.rekapGrid.SetDefaultCellTextColour( wx.Colour( 100, 100, 100 ) )
+		self.rekapGrid.SetDefaultCellFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
 		self.rekapGrid.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
-		bSizer71.Add( self.rekapGrid, 1, wx.ALL|wx.EXPAND, 10 )
+		self.rekapGrid.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.rekapGrid.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		self.rekapGrid.SetMinSize( wx.Size( 880,720 ) )
+
+		bSizer71.Add( self.rekapGrid, 1, wx.EXPAND, 10 )
 
 
-		self.SetSizer( bSizer71 )
+		self.riwayatBantuan.SetSizer( bSizer71 )
+		self.riwayatBantuan.Layout()
+		bSizer71.Fit( self.riwayatBantuan )
+		bSizer60.Add( self.riwayatBantuan, 1, wx.EXPAND, 5 )
+
+
+		self.SetSizer( bSizer60 )
+		self.Layout()
+
+		# Connect Events
+		self.m_bpButton17.Bind( wx.EVT_BUTTON, self.catatBantuan_btn )
+		self.m_bpButton18.Bind( wx.EVT_BUTTON, self.riwayatBantuan_btn )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def catatBantuan_btn( self, event ):
+		event.Skip()
+
+	def riwayatBantuan_btn( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class catatData
+###########################################################################
+
+class catatData ( wx.Dialog ):
+
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 400,250 ), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP )
+
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+		bSizer63 = wx.BoxSizer( wx.VERTICAL )
+
+		self.m_staticText41 = wx.StaticText( self, wx.ID_ANY, u"Catat Pemberian Bantuan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText41.Wrap( -1 )
+
+		self.m_staticText41.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
+		bSizer63.Add( self.m_staticText41, 0, wx.BOTTOM|wx.LEFT|wx.TOP, 20 )
+
+		bSizer64 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText43 = wx.StaticText( self, wx.ID_ANY, u"Nomor KK", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText43.Wrap( -1 )
+
+		self.m_staticText43.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
+		bSizer64.Add( self.m_staticText43, 1, wx.ALIGN_CENTER|wx.BOTTOM|wx.RIGHT, 10 )
+
+		self.nomorKK = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,150 ), 0 )
+		self.nomorKK.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.nomorKK.SetMinSize( wx.Size( 150,-1 ) )
+
+		bSizer64.Add( self.nomorKK, 0, wx.ALIGN_CENTER|wx.RIGHT, 20 )
+
+
+		bSizer63.Add( bSizer64, 0, wx.LEFT|wx.EXPAND, 20 )
+
+		bSizer65 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText44 = wx.StaticText( self, wx.ID_ANY, u"Dana yang diberikan", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.m_staticText44.Wrap( -1 )
+
+		self.m_staticText44.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+
+		bSizer65.Add( self.m_staticText44, 1, wx.ALIGN_CENTER|wx.RIGHT, 10 )
+
+		self.danaBeri = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,150 ), 0 )
+		self.danaBeri.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Roboto" ) )
+		self.danaBeri.SetMinSize( wx.Size( 150,-1 ) )
+
+		bSizer65.Add( self.danaBeri, 0, wx.ALIGN_CENTER|wx.RIGHT, 20 )
+
+
+		bSizer63.Add( bSizer65, 0, wx.BOTTOM|wx.EXPAND|wx.LEFT|wx.TOP, 20 )
+
+		self.m_bpButton19 = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE )
+
+		self.m_bpButton19.SetBitmap( wx.Bitmap( u"picture/tambah.png", wx.BITMAP_TYPE_ANY ) )
+		bSizer63.Add( self.m_bpButton19, 0, wx.ALIGN_RIGHT|wx.RIGHT, 20 )
+
+
+		self.SetSizer( bSizer63 )
 		self.Layout()
 
 		self.Centre( wx.BOTH )
 
+		# Connect Events
+		self.m_bpButton19.Bind( wx.EVT_BUTTON, self.addCatat_btn )
+
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def addCatat_btn( self, event ):
+		event.Skip()
 
 

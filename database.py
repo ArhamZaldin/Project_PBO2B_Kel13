@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 class Database:
     def __init__(self):
@@ -21,7 +22,7 @@ class Database:
 
 class dataKeluarga(Database):
     def setKeluarga(self, noKK, kepalaKeluarga, anggota, total, alamat):
-        self.executeQuery("CREATE TABLE IF NOT EXISTS Keluarga (noKK int primary key, kepalaKeluarga varchar, anggotaKeluarga int, totalPendapatan float, alamat varchar)")
+        self.executeQuery("CREATE TABLE IF NOT EXISTS Keluarga (noKK int primary key, kepalaKeluarga varchar, anggotaKeluarga int, totalPendapatan int, alamat varchar)")
         query = f"SELECT * FROM Keluarga WHERE noKK = '{noKK}'"
         check = self.checkVal(query)
         if check is None and noKK and kepalaKeluarga and anggota and total and alamat:
@@ -36,7 +37,7 @@ class dataKeluarga(Database):
         return list
 
     def lowerTotal(self):
-        query = f"SELECT * FROM Keluarga ORDER BY totalPendapatan LIMIT 5"
+        query = f"SELECT * FROM Keluarga ORDER BY totalPendapatan"
         list = self.executeQuery(query, True)
         return list
 
@@ -96,31 +97,23 @@ class dataKeluarga(Database):
         query = f"SELECT * FROM Keluarga WHERE noKK = '{noKK}'"
         check = self.checkVal(query)
         list = self.executeQuery(query, True)
-        if check is not None:
+        if check is not None and noKK:
             query2 = f"SELECT * FROM Anggota_Keluarga WHERE noKK = '{noKK}'"
             list2 = self.executeQuery(query2, True)
             return list, list2
         else:
             return False
 
-    def isAvailable(self, noKK):
-        query = f"SELECT * FROM Keluarga WHERE noKK = '{noKK}'"
-        check = self.checkVal(query)
-        if check is not None:
+class anggotaKeluarga(dataKeluarga):
+    def addKeluarga(self, noKK, kepalaKeluarga, anggota, total, alamat, nik):
+        check = self.setKeluarga(noKK, kepalaKeluarga, anggota, total, alamat)
+        if check:
+            self.executeQuery("CREATE TABLE IF NOT EXISTS Anggota_Keluarga (NIK int primary key, nama varchar, noKK int, foreign key(noKK) REFERENCES Keluarga(noKK))")
+            query = f"INSERT INTO Anggota_Keluarga VALUES ('{nik}', '{kepalaKeluarga}', '{noKK}')"
+            self.executeQuery(query)
             return True
         else:
             return False
-
-class anggotaKeluarga(dataKeluarga):
-    # def addKeluarga(self, noKK, kepalaKeluarga, anggota, total, alamat, nik):
-    #     check = self.setKeluarga(noKK, kepalaKeluarga, anggota, total, alamat)
-    #     if check:
-    #         self.executeQuery("CREATE TABLE IF NOT EXISTS Anggota_Keluarga (NIK int primary key, nama varchar, noKK int, foreign key(noKK) REFERENCES Keluarga(noKK))")
-    #         query = f"INSERT INTO Anggota_Keluarga VALUES ('{nik}', '{kepalaKeluarga}', '{noKK}')"
-    #         self.executeQuery(query)
-    #         return True
-    #     else:
-    #         return False
 
     def setAnggota(self, nikAnggota, nama, noKK):
         query = f"SELECT * FROM Keluarga WHERE noKK = '{noKK}'"
@@ -164,7 +157,7 @@ class bantuan(Database):
         if list and umr:
             for row in list:
                 anggota.append(row[2])
-                limit.append(float(int(umr) - row[3]))
+                limit.append(int(umr) - row[3])
             for x in range(len(anggota)):
                 if anggota[x] > 1:
                     for y in range(anggota[x] - 1):
@@ -175,28 +168,29 @@ class bantuan(Database):
 
 class rekap(Database):
     def catatBantuan(self, noKK, donation):
-        self.executeQuery("CREATE TABLE IF NOT EXISTS Rekap_Data (idRekap INTEGER PRIMARY KEY, noKK int, bantuan float, FOREIGN KEY(noKK) references Keluarga(noKK))")
+        now = datetime.now()
+        date = now.strftime("%Y-%m-%d %H:%M:%S")
+        self.executeQuery("CREATE TABLE IF NOT EXISTS Rekap_Data (idRekap INTEGER PRIMARY KEY, noKK int, bantuan int, tanggal varchar, FOREIGN KEY(noKK) references Keluarga(noKK))")
         query = f"SELECT * FROM Keluarga WHERE noKK = '{noKK}'"
         check = self.checkVal(query)
-        if check is not None:
-            query2 = f"INSERT INTO Rekap_Data VALUES (null, '{noKK}', '{donation}')"
+        if check is not None and noKK and donation and date:
+            query2 = f"INSERT INTO Rekap_Data VALUES (null, '{noKK}', '{donation}', '{date}')"
             self.executeQuery(query2)
             return True
         else:
             return False
 
     def riwayatBantuan(self):
-        list = self.executeQuery("SELECT * FROM Rekap_Data", True)
-        check = self.checkVal("SELECT * FROM Rekap_Data")
-        if check is not None:
-            return list
-        else:
-            return False
-
-    def showHistory(self):
-        list = self.executeQuery("SELECT * FROM Rekap_Data LIMIT 5", True)
-        noKK = []
+        list = self.executeQuery("SELECT * FROM Rekap_Data ORDER BY tanggal", True)
+        kepalaKeluarga = []
         for row in list:
-            noKK.append(self.executeQuery(f"SELECT kepalaKeluarga FROM Keluarga WHERE noKK = '{row[1]}'", True))
-        return noKK, list
+            kepalaKeluarga.append(self.executeQuery(f"SELECT kepalaKeluarga FROM Keluarga WHERE noKK = '{row[1]}'", True))
+        return kepalaKeluarga, list
 
+    def newestData(self):
+        list = self.executeQuery("SELECT * FROM Rekap_Data ORDER BY tanggal DESC", True)
+        kepalaKeluarga = []
+        for row in list:
+            kepalaKeluarga.append(
+                self.executeQuery(f"SELECT kepalaKeluarga FROM Keluarga WHERE noKK = '{row[1]}'", True))
+        return kepalaKeluarga, list
